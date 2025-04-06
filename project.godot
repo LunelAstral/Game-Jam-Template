@@ -17,8 +17,14 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameGlobal="*res://autoloads/general/game_global.gd"
+GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
 MusicManager="*res://autoloads/audio/music_manager.gd"
 SoundManager="*res://autoloads/audio/sound_manager.gd"
+
+[display]
+
+window/size/resizable=false
+window/stretch/mode="viewport"
 
 [file_customization]
 
