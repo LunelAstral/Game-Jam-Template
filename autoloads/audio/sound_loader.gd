@@ -10,11 +10,11 @@ func load_audio() -> void:
 
 func load_ost() -> void:
 	# Add OST loads here
-	var song_list : Array[AudioStream] = []
+	var song_list : Dictionary[int, Array] = {}
 	
-	for song in song_list:
-		song.resource_name = grab_name(song.resource_path)
-		MusicManager.add_ost(song)
+	for song in song_list.values():
+		song.get(0).resource_name = grab_name(song.get(0).resource_path)
+		MusicManager.add_ost(song.get(0), song.get(1))
 
 func load_sfx() -> void:
 	# Add SFX loads here
