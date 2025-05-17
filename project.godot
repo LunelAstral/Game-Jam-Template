@@ -16,6 +16,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+SaveManager="*res://autoloads/saving/save_manager.gd"
 GameGlobal="*res://autoloads/general/game_global.gd"
 GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
 MusicManager="*res://autoloads/audio/music_manager.gd"
@@ -29,9 +30,16 @@ window/stretch/mode="viewport"
 [file_customization]
 
 folder_colors={
+"res://assets/": "pink",
 "res://autoloads/": "yellow",
+"res://mechanics/": "red",
+"res://ui/": "green",
 "res://utility/": "purple"
 }
+
+[global_group]
+
+saveable="Nodes that should have the \"save()\" function and can thus be saved as data to a .save file"
 
 [rendering]
 

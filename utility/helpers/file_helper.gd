@@ -1,5 +1,6 @@
 class_name FileHelper
 
+## Used specifically with Web export to load assets because of how export name-changing works.
 static func load_asset(path : String) -> Resource:
 	if OS.has_feature("export"):
 		# Check if file is .remap

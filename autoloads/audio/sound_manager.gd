@@ -1,11 +1,17 @@
 extends Node
 
+#region Signals
+signal finished_sound(sfx)
+#endregion
+
 #region Variable Definitions
 var audio_players : Dictionary[Genum.BusID, Array]
 var audio_player_count_per_group : int = 4
 var sfx_pool : Dictionary[StringName, AudioStream] = {}
 var ui_pool : Dictionary[StringName, AudioStream] = {}
 var ambient_pool : Dictionary[StringName, AudioStream] = {}
+
+var playing : Array[StringName]
 #endregion
 
 func _ready() -> void:
@@ -24,6 +30,8 @@ func setup_audio_players() -> void:
 				audio_players.get(genum).append(player)
 			else:
 				audio_players.set(genum, [player])
+			
+			player.finished.connect(_on_player_finished)
 
 func add_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:
 	match(bus):
@@ -65,6 +73,7 @@ func play_sound(sound_name: StringName) -> void:
 	if player:
 		player.stream = sound[0]
 		player.play()
+		playing.append(sound_name)
 
 func find_sound(sound_name: StringName) -> Array:
 	var bus : Genum.BusID
@@ -81,6 +90,17 @@ func find_sound(sound_name: StringName) -> Array:
 	
 	return [sound, bus]
 
+func find_sound_stringname(stream: AudioStream) -> StringName:
+	if stream in sfx_pool.values():
+		return sfx_pool.find_key(stream)
+	elif stream in ui_pool.values():
+		return ui_pool.find_key(stream)
+	elif stream in ambient_pool.values():
+		return ambient_pool.find_key(stream)
+	
+	push_warning("There is no stream '%s' found in any sound pool." % stream)
+	return &""
+
 func find_open_player(bus: Genum.BusID) -> AudioStreamPlayer:
 	var player_list = audio_players.get(bus)
 	for player in player_list:
@@ -90,3 +110,9 @@ func find_open_player(bus: Genum.BusID) -> AudioStreamPlayer:
 	push_warning("There is no open player...")
 	return null 
 #endregion
+
+func _on_player_finished() -> void:
+	for bus in audio_players:
+		for player in audio_players.get(bus):
+			if player.stream and not player.playing:
+				playing.erase(find_sound_stringname(player.stream))
