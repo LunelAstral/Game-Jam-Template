@@ -19,6 +19,11 @@ func _input(event: InputEvent) -> void:
 			show()
 #endregion
 
+#region Private Methods
+func _add_line(new_text: String) -> void:
+	text_box.set_line(text_box.get_line_count(), new_text)
+#endregion
+
 #region Signal Callbacks
 func _on_text_submit(new_text: String) -> void:
 	text_line.text = ""
@@ -34,9 +39,9 @@ func _on_text_submit(new_text: String) -> void:
 			var callable = Callable(self, command_name)
 			callable.call(args)
 		else:
-			text_box.set_line(text_box.get_line_count(), "There is no command by the name %s" % command_name)
+			_add_line("There is no command by the name %s" % command_name)
 	else:
-		text_box.set_line(text_box.get_line_count(), "That was not a command, please use /")
+		_add_line("That was not a command, please use /")
 	
 	text_box.text = text
 	text_box.scroll_vertical = text_box.get_line_count() - 1
@@ -49,7 +54,7 @@ func help(args: Array[String]) -> void:
 			"help"
 		]
 		
-		text += "\nList of Available Commands:"
+		_add_line("List of Available Commands:")
 		for command in command_list:
-			text += "\n%s" % command
+			_add_line("%s" % command)
 #endregion
