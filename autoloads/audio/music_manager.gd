@@ -12,7 +12,7 @@ var crossfade := false ## If MusicManager is currently crossfading or not
 func _ready() -> void:
 	setup_music_players()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if current_song != &"":
 		if song_pool.get(current_song).get(1) != -1 and not crossfade:
 			var current_pos = main_music_player.get_playback_position()
@@ -96,7 +96,6 @@ func _ost_crossover(song_name: StringName) -> void:
 	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_SINE)
 	tween.tween_property(main_music_player, "volume_linear", 0, 1.0)
 	tween.parallel().tween_property(secondary_music_player, "volume_linear", 1, 1.0)
-	tween.tween_callback(func(): tween.kill)
 	
 	await tween.finished
 	# Move from secondary to main

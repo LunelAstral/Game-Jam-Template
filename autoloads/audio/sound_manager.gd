@@ -1,7 +1,7 @@
 extends Node
 
 #region Signals
-signal finished_sound(sfx)
+#signal finished_sound(sfx)
 #endregion
 
 #region Variable Definitions
@@ -54,7 +54,6 @@ func remove_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> voi
 			_:
 				push_warning("There's no such bus to unsubscribe from")
 	else:
-		var erased = false
 		for pool in [sfx_pool, ui_pool, ambient_pool]:
 			var sound_name := sound.resource_name.split(".")[0]
 			if pool.has(sound_name):
