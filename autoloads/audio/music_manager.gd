@@ -85,7 +85,7 @@ func _crossover(sound_name: StringName, sfx_crossover := false) -> void:
 		_ost_crossover(sound_name)
 
 ## This is the ost specific crossover function, using [param song_name] to find the specific song to
-## be crossed over.
+## be crossed over
 func _ost_crossover(song_name: StringName) -> void:
 	# Add the song to the secondary music player and have it start at volume 0.
 	secondary_music_player.stream = song_pool.get(song_name).get(0)
