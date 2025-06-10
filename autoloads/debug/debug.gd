@@ -48,6 +48,7 @@ func _on_text_submit(new_text: String) -> void:
 #endregion
 
 #region Commands
+# Basic idea is to add a method and then it essentially becomes a command because of how _on_text_submit works
 func help(args: Array[String]) -> void:
 	if args.size() == 0:
 		var command_list : Array[String] = [
