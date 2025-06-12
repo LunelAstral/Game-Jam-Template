@@ -1,3 +1,5 @@
+## The Debug terminal for most if not all debug handling.
+## Used by adding commands as methods to this script.
 extends CanvasLayer
 
 #region Variables
@@ -19,7 +21,7 @@ func _input(event: InputEvent) -> void:
 			show()
 #endregion
 
-#region Private Methods
+#region Helpers
 func _add_line(new_text: String) -> void:
 	text_box.set_line(text_box.get_line_count(), new_text)
 #endregion
@@ -49,6 +51,8 @@ func _on_text_submit(new_text: String) -> void:
 
 #region Commands
 # Basic idea is to add a method and then it essentially becomes a command because of how _on_text_submit works
+
+## When called it will either provide a list of available commands or give information about a particular command
 func help(args: Array[String]) -> void:
 	if args.size() == 0:
 		var command_list : Array[String] = [
