@@ -1,8 +1,7 @@
-## Virtual base class for all states
-## Extend this class and override its methods to implement a state.
+## Base class for all states
 class_name State extends Node
 
-## Emitted when the stat finishes and wants to transition to another state.
+## Emitted when the state finishes and wants to transition to another state.
 signal finished(next_state_path: StringName, data: Dictionary)
 
 ## Called by the state machine when receiving unhandled input events.
@@ -17,12 +16,12 @@ func update(_delta: float) -> void:
 func physics_update(_delta: float) -> void:
 	pass
 
-## Called by the state machine upon changing the active state. The 'data' parameter
+## Called by the state machine upon changing the active state to this one. The 'data' parameter
 ## is a dictionary with arbitrary data the state can use to initialize itself.
 func enter(previous_state_path: StringName, data := {}) -> void:
 	pass
 
-## Called by the state machine before changing the active state. Use this function
+## Called by the state machine before changing the active state to the next one. Use this function
 ## to clean up the state.
 func exit() -> void:
 	pass

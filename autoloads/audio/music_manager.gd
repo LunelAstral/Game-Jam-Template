@@ -44,7 +44,7 @@ func remove_ost(stream_name: StringName) -> void:
 		push_warning("There is no stream by %s in song_pool" % stream_name)
 #endregion
 
-#region Public Methods
+#region Usage Methods
 ## Used to play a song found within [member song_pool]. This is done by entering the [param song_name]
 ## and then optionally putting [param cross_over] if the ost should be crossed over the currently
 ## playing song.
@@ -73,7 +73,7 @@ func stop_song() -> void:
 	current_song = &""
 #endregion
 
-#region Private Methods
+#region Helper Methods
 ## Crosses between either the currently playing ost and into another ost, or if a jingle is used
 ## via [method play_jingle], will crossover by dodging the current ost. Needs [param sound_name] which
 ## is the ost or sfx name, but [param sfx_crossover] is only needed when using sfx.

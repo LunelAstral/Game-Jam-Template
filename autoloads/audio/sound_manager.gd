@@ -1,12 +1,13 @@
+## Handles everything relating to normal sounds in the game.
 extends Node
 
 #region Signals
 #signal finished_sound(sfx)
 #endregion
 
-#region Variable Definitions
+#region Variables
 var audio_players : Dictionary[Genum.BusID, Array]
-var audio_player_count_per_group : int = 4
+var audio_group_count : int = 4
 var sfx_pool : Dictionary[StringName, AudioStream] = {}
 var ui_pool : Dictionary[StringName, AudioStream] = {}
 var ambient_pool : Dictionary[StringName, AudioStream] = {}
@@ -14,13 +15,16 @@ var ambient_pool : Dictionary[StringName, AudioStream] = {}
 var playing : Array[StringName]
 #endregion
 
+#region Built-Ins
 func _ready() -> void:
 	setup_audio_players()
+#endregion
 
-#region Setup Functions
+#region Setup Methods
+## Sets up all the AudioPlayers for SFX, UI, and Ambient sounds with the count defined by [property audio_group_count].
 func setup_audio_players() -> void:
 	for genum in Genum.BusID.values():
-		for i in range(audio_player_count_per_group):
+		for i in range(audio_group_count):
 			var player := AudioStreamPlayer.new()
 			add_child(player)
 			var bus_name : StringName = GenumHelper.BusName.get(genum)
@@ -33,6 +37,7 @@ func setup_audio_players() -> void:
 			
 			player.finished.connect(_on_player_finished)
 
+## Adds a sound to the correct pool based on [param bus].
 func add_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:
 	match(bus):
 		Genum.BusID.SFX:
@@ -44,6 +49,7 @@ func add_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:
 		_:
 			push_warning("There's no such bus to subscribe to")
 
+## Removes a sound from their pool.
 func remove_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> void:
 	if bus != Genum.BusID.SFX:
 		match(bus):
@@ -62,7 +68,8 @@ func remove_sound(sound: AudioStream, bus: Genum.BusID = Genum.BusID.SFX) -> voi
 		push_warning("Sound doesn't exist in any subscribed bus")
 #endregion
 
-#region Usage Functions
+#region Usage Methods
+## Plays a sound as long as it exists within any pool.
 func play_sound(sound_name: StringName) -> void:
 	var sound := find_sound(sound_name)
 	var player : AudioStreamPlayer
@@ -74,6 +81,8 @@ func play_sound(sound_name: StringName) -> void:
 		player.play()
 		playing.append(sound_name)
 
+## Helper to [method play_sound], but can be used on its own to find the [AudioStream, AudioBus] info
+## for a particular sound.
 func find_sound(sound_name: StringName) -> Array:
 	var bus : Genum.BusID
 	var sound : AudioStream
@@ -89,6 +98,7 @@ func find_sound(sound_name: StringName) -> Array:
 	
 	return [sound, bus]
 
+## Find the StringName for a given [param stream].
 func find_sound_stringname(stream: AudioStream) -> StringName:
 	if stream in sfx_pool.values():
 		return sfx_pool.find_key(stream)
@@ -100,6 +110,7 @@ func find_sound_stringname(stream: AudioStream) -> StringName:
 	push_warning("There is no stream '%s' found in any sound pool." % stream)
 	return &""
 
+## Finds the first open player in a specific pool defined by [param bus].
 func find_open_player(bus: Genum.BusID) -> AudioStreamPlayer:
 	var player_list = audio_players.get(bus)
 	for player in player_list:
@@ -110,8 +121,11 @@ func find_open_player(bus: Genum.BusID) -> AudioStreamPlayer:
 	return null 
 #endregion
 
+#region Signal Callbacks
+## Called when a player is finished to remove a sound from [property playing].
 func _on_player_finished() -> void:
 	for bus in audio_players:
 		for player in audio_players.get(bus):
 			if player.stream and not player.playing:
 				playing.erase(find_sound_stringname(player.stream))
+#endregion
