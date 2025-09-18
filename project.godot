@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SaveManager="*res://autoloads/saving/save_manager.gd"
-MusicManager="*res://autoloads/audio/music_manager.gd"
+MusicManager="*res://autoloads/audio/music_manager.tscn"
 SoundManager="*res://autoloads/audio/sound_manager.gd"
 GameGlobal="*res://autoloads/general/game_global.gd"
 GameGlobalEvents="*res://autoloads/general/game_global_events.gd"
