@@ -6,11 +6,12 @@ extends Node
 #endregion
 
 #region Variables
+@export var sfx_pool : Dictionary[StringName, AudioStream] = {}
+@export var ui_pool : Dictionary[StringName, AudioStream] = {}
+@export var ambient_pool : Dictionary[StringName, AudioStream] = {}
+
 var audio_players : Dictionary[Genum.BusID, Array]
 var audio_group_count : int = 4
-var sfx_pool : Dictionary[StringName, AudioStream] = {}
-var ui_pool : Dictionary[StringName, AudioStream] = {}
-var ambient_pool : Dictionary[StringName, AudioStream] = {}
 
 var playing : Array[StringName]
 #endregion
