@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bamjugiicnyji"]
+
+[ext_resource type="Script" uid="uid://v023bcccwck7" path="res://autoloads/audio/audio_manager.gd" id="1_slqgr"]
+
+[node name="AudioManager" type="Node" unique_id=747943304]
+script = ExtResource("1_slqgr")
+
+[node name="OSTPlayers" type="Node" parent="." unique_id=1492111324]
+
+[node name="MainPlayer" type="AudioStreamPlayer" parent="OSTPlayers" unique_id=513146901]
+
+[node name="SecondaryPlayer" type="AudioStreamPlayer" parent="OSTPlayers" unique_id=723639096]
+
+[node name="SoundPlayers" type="Node" parent="." unique_id=1703566057]
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="SoundPlayers" unique_id=1896354923]
+
+[node name="SFXPlayer2" type="AudioStreamPlayer" parent="SoundPlayers" unique_id=1103330894]
+
+[node name="UIPlayer" type="AudioStreamPlayer" parent="SoundPlayers" unique_id=840130853]
+
+[node name="AmbientPlayer" type="AudioStreamPlayer" parent="SoundPlayers" unique_id=736129436]
